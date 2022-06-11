@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: arial;
+      }
+
+      body {
+        background-image: url("img/audience1_1280x853.jpg");
+        background-size: cover;
+      }
+
+      .keys {
+        /* position: fixed; */
+        /* top: 50%; */
+        /* left: 50%; */
+        height: 100vh;
+        max-width: 1000px;
+        margin: auto;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        /* transform: translate(-50%, -50%) */
+      }
+
+      .key {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 60px;
+        width: 60px;
+        border: 3px solid black;
+        border-radius: 10%;
+        text-align: center;
+        transition: all 0.07s;
+      }
+
+      .playing {
+        transform: scale(1.1);
+        border-color: #ffc600;
+        box-shadow: 0 0 10px #ffc600;
+      }
+
+      kbd {
+        font-size: 25px;
+        /* display: block; */
+      }
+
+      span.sound {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #000;
+        /* color: #ffc600; */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="keys">
+      <!-- <img src="img/audience1_1280x853.jpg" alt="audience"> -->
+      <div data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">bas</span>
+      </div>
+      <div data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">open</span>
+      </div>
+      <div data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">slap</span>
+      </div>
+      <div data-key="70" class="key f70">
+        <kbd>F</kbd>
+        <span class="sound">timbales</span>
+      </div>
+      <div data-key="71" class="key">
+        <kbd>G</kbd>
+        <span class="sound">clave</span>
+      </div>
+      <div data-key="72" class="key">
+        <kbd>H</kbd>
+        <span class="sound">bell</span>
+      </div>
+      <div data-key="74" class="key">
+        <kbd>J</kbd>
+        <span class="sound">cowbell</span>
+      </div>
+      <div data-key="75" class="key">
+        <kbd>K</kbd>
+        <span class="sound">cascara</span>
+      </div>
+      <div data-key="76" class="key">
+        <kbd>L</kbd>
+        <span class="sound">maracas</span>
+      </div>
+      <button>PLAY</button>
+    </div>
+    <audio data-key="65" src="sounds/bas1.m4a"></audio>
+    <audio data-key="83" src="sounds/open.m4a"></audio>
+    <audio data-key="68" src="sounds/slap 07.m4a"></audio>
+    <audio data-key="70" class="f-sound" src="sounds/clave timbales 41.m4a"></audio>
+    <audio data-key="71" src="sounds/clave rumba 43.m4a"></audio>
+    <audio data-key="72" src="sounds/dzwonek duzy 39.m4a"></audio>
+    <audio data-key="74" src="sounds/dzwnek mały 40.m4a"></audio>
+    <audio data-key="75" src="sounds/cascara_36.m4a"></audio>
+    <audio data-key="76" src="sounds/maracas.m4a"></audio>
+  </body>
+
+  <script>
+    soundMaker = (e) => {
+      console.log(e.keyCode);
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      console.log(audio);
+      if (!audio) return;
+      audio.currentTime = 0.8;
+      if (e.keyCode === 65) audio.currentTime = 1.56;
+      if (e.keyCode === 83) audio.currentTime = 0.85;
+      if (e.keyCode === 68) audio.currentTime = 1.2;
+      if (e.keyCode === 70) audio.currentTime = 1.55;
+      if (e.keyCode === 71) audio.currentTime = 1.25;
+      if (e.keyCode === 72) audio.currentTime = 1.35;
+      if (e.keyCode === 74) audio.currentTime = 1.25;
+      if (e.keyCode === 75) audio.currentTime = 0.9;
+      if (e.keyCode === 76) audio.currentTime = 0.92;
+      //   if (e.keyCode === 72) audio.currentTime = 0.5; // plik zaczyna się odtwarzać od pewnego momentu - tu: od 0.8 sekundy
+      audio.play(); // odtwarzanie pliku mp3
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+      key.classList.add("playing");
+      //żeby nie korzystać z this można też tak usunąć klasę:
+      // keys.forEach(key => addEventListener("transitionend", function removeClass() {
+      //     key.classList.remove('playing');
+      // }))
+    };
+
+    function removeClass(e) {
+      //this nie łączy się z arrow function!
+      if (e.propertyName !== "transform") return; //transition dotyczy bordera, boxshadow i transforma, przy czym transform bd się najbardziej rzucał w oczy - dlatego usuwamy klasę dopiero jak skończy się wykonywać transform (e.propertyName)
+      console.log(e.propertyName); //gdy skończy się dziać transform to transform' wyświetli się w konsoli
+      console.log(this);
+      this.classList.remove("playing");
+    }
+
+    const keys = document.querySelectorAll(".key");
+    keys.forEach((key) => key.addEventListener("transitionend", removeClass)); //transitionend - usuwamy klasę dopiero po zakończeniu działania transition na danym div.key
+    window.addEventListener("keydown", soundMaker);
+
+    const playBtn = document.querySelector("button");
+    const fKey = document.querySelector(".f70");
+    const fSound = document.querySelector(".f-sound");
+    let number = 0;
+    let playing = false;
+    let intervalIndex;
+
+    // const countNumber = () => {
+    //   number += 125;
+    // };
+
+    // SET INTERVAL - DZIAŁA!
+    // const musicPlay = () => {
+    //   playing = !playing;
+    //   if (playing === true) {
+    //     intervalIndex = setInterval(function() {
+    //       number += 125;
+    //       console.log(number);
+    //       if (
+    //         number === 250 ||
+    //         number === 625 ||
+    //         number === 1000 ||
+    //         number === 1500 ||
+    //         number === 1750
+    //       ) {
+    //         fKey.classList.add("playing");
+    //         fSound.play();
+    //         fSound.currentTime = 1.55;
+    //       }
+    //     }, 250);
+    //   } else {
+    //     clearInterval(intervalIndex);
+    //     number = 0;
+    //   }
+
+    // PETLA _ NIE DZIAŁA
+    // const musicPlay = () => {
+    //   for (let number = 0; number <= 2000; number += 125) {
+    //     console.log(number);
+    //     if (
+    //       number === 250 ||
+    //       number === 625 ||
+    //       number === 1000 ||
+    //       number === 1500 ||
+    //       number === 1750
+    //     ) {
+    //       fKey.classList.add("playing");
+    //       fSound.play();
+    //       fSound.currentTime = 1.55;
+    //     }
+    //   }
+
+    const musicPlay = () => {
+      playing = !playing;
+      if (playing === true) {
+        intervalIndex = setInterval(function () {
+          number += 125;
+          console.log(number);
+          if (number === 250 || number === 625 || number === 1000 || number === 1500 || number === 1750) {
+            fKey.classList.add("playing");
+            fSound.play();
+            fSound.currentTime = 1.55;
+          }
+          if (number === 2000) {
+            clearInterval(intervalIndex);
+            number = 0;
+          }
+        }, 250);
+      }
+
+      console.log("ok");
+    };
+    playBtn.addEventListener("click", musicPlay);
+  </script>
+</html>
