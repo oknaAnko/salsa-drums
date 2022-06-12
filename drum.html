@@ -100,6 +100,8 @@
       button:focus {
         position: relative;
         top: 1px;
+        background: linear-gradient(to bottom, #ffab23 5%, transparent 100%);
+        background-color: transparent;
       }
     </style>
   </head>
@@ -108,7 +110,6 @@
     <div class="wrapper">
       <h1>Let's play a little salsa</h1>
       <div class="keys">
-        <!-- <img src="img/audience1_1280x853.jpg" alt="audience"> -->
         <div data-key="65" class="key">
           <kbd>A</kbd>
           <span class="sound">bas</span>
@@ -123,15 +124,15 @@
         </div>
         <div data-key="70" class="key f70">
           <kbd>F</kbd>
-          <span class="sound">timbales</span>
+          <span class="sound">clave</span>
         </div>
         <div data-key="71" class="key">
           <kbd>G</kbd>
-          <span class="sound">clave</span>
+          <span class="sound">clave timbales</span>
         </div>
         <div data-key="72" class="key">
           <kbd>H</kbd>
-          <span class="sound">bell</span>
+          <span class="sound">mambo bell</span>
         </div>
         <div data-key="74" class="key">
           <kbd>J</kbd>
@@ -151,8 +152,8 @@
     <audio data-key="65" src="sounds/bas1.m4a"></audio>
     <audio data-key="83" src="sounds/open.m4a"></audio>
     <audio data-key="68" src="sounds/slap 07.m4a"></audio>
-    <audio data-key="70" class="f-sound" src="sounds/clave timbales 41.m4a"></audio>
-    <audio data-key="71" src="sounds/clave rumba 43.m4a"></audio>
+    <audio data-key="70" class="f-sound" src="sounds/clave rumba 43.m4a"></audio>
+    <audio data-key="71" src="sounds/clave timbales 41.m4a"></audio>
     <audio data-key="72" src="sounds/dzwonek duzy 39.m4a"></audio>
     <audio data-key="74" src="sounds/dzwnek mały 40.m4a"></audio>
     <audio data-key="75" src="sounds/cascara_36.m4a"></audio>
@@ -169,32 +170,25 @@
       if (e.keyCode === 65) audio.currentTime = 1.56;
       if (e.keyCode === 83) audio.currentTime = 0.85;
       if (e.keyCode === 68) audio.currentTime = 1.2;
-      if (e.keyCode === 70) audio.currentTime = 1.55;
-      if (e.keyCode === 71) audio.currentTime = 1.25;
+      if (e.keyCode === 70) audio.currentTime = 1.25;
+      if (e.keyCode === 71) audio.currentTime = 1.55;
       if (e.keyCode === 72) audio.currentTime = 1.35;
       if (e.keyCode === 74) audio.currentTime = 1.25;
       if (e.keyCode === 75) audio.currentTime = 0.9;
       if (e.keyCode === 76) audio.currentTime = 0.92;
-      //   if (e.keyCode === 72) audio.currentTime = 0.5; // plik zaczyna się odtwarzać od pewnego momentu - tu: od 0.8 sekundy
-      audio.play(); // odtwarzanie pliku mp3
+      audio.play();
       const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
       key.classList.add("playing");
-      //żeby nie korzystać z this można też tak usunąć klasę:
-      // keys.forEach(key => addEventListener("transitionend", function removeClass() {
-      //     key.classList.remove('playing');
-      // }))
     };
 
     function removeClass(e) {
-      //this nie łączy się z arrow function!
-      if (e.propertyName !== "transform") return; //transition dotyczy bordera, boxshadow i transforma, przy czym transform bd się najbardziej rzucał w oczy - dlatego usuwamy klasę dopiero jak skończy się wykonywać transform (e.propertyName)
-      console.log(e.propertyName); //gdy skończy się dziać transform to transform' wyświetli się w konsoli
+      if (e.propertyName !== "transform") return;
       console.log(this);
       this.classList.remove("playing");
     }
 
     const keys = document.querySelectorAll(".key");
-    keys.forEach((key) => key.addEventListener("transitionend", removeClass)); //transitionend - usuwamy klasę dopiero po zakończeniu działania transition na danym div.key
+    keys.forEach((key) => key.addEventListener("transitionend", removeClass));
     window.addEventListener("keydown", soundMaker);
 
     const playBtn = document.querySelector("button");
@@ -203,51 +197,6 @@
     let number = 0;
     let playing = false;
     let intervalIndex;
-
-    // const countNumber = () => {
-    //   number += 125;
-    // };
-
-    // SET INTERVAL - DZIAŁA!
-    // const musicPlay = () => {
-    //   playing = !playing;
-    //   if (playing === true) {
-    //     intervalIndex = setInterval(function() {
-    //       number += 125;
-    //       console.log(number);
-    //       if (
-    //         number === 250 ||
-    //         number === 625 ||
-    //         number === 1000 ||
-    //         number === 1500 ||
-    //         number === 1750
-    //       ) {
-    //         fKey.classList.add("playing");
-    //         fSound.play();
-    //         fSound.currentTime = 1.55;
-    //       }
-    //     }, 250);
-    //   } else {
-    //     clearInterval(intervalIndex);
-    //     number = 0;
-    //   }
-
-    // PETLA _ NIE DZIAŁA
-    // const musicPlay = () => {
-    //   for (let number = 0; number <= 2000; number += 125) {
-    //     console.log(number);
-    //     if (
-    //       number === 250 ||
-    //       number === 625 ||
-    //       number === 1000 ||
-    //       number === 1500 ||
-    //       number === 1750
-    //     ) {
-    //       fKey.classList.add("playing");
-    //       fSound.play();
-    //       fSound.currentTime = 1.55;
-    //     }
-    //   }
 
     const musicPlay = () => {
       playing = !playing;
@@ -258,7 +207,7 @@
           if (number === 250 || number === 625 || number === 1000 || number === 1500 || number === 1750) {
             fKey.classList.add("playing");
             fSound.play();
-            fSound.currentTime = 1.55;
+            fSound.currentTime = 1.25;
           }
           if (number === 2000) {
             clearInterval(intervalIndex);
