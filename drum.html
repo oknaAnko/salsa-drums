@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet" />
     <title>Document</title>
     <style>
       * {
@@ -16,19 +17,33 @@
       body {
         background-image: url("img/audience1_1280x853.jpg");
         background-size: cover;
+        position: relative;
+      }
+
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        max-width: 1000px;
+        justify-content: center;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin-top: -250px;
+        text-align: center;
+        margin-bottom: 90px;
+        color: #ffc600;
+        text-shadow: 0 0 10px black;
+        font-size: 48px;
+        font-family: "Courgette", cursive, sans-serif;
+        letter-spacing: 2px;
       }
 
       .keys {
-        /* position: fixed; */
-        /* top: 50%; */
-        /* left: 50%; */
-        height: 100vh;
-        max-width: 1000px;
-        margin: auto;
         display: flex;
         justify-content: space-around;
         align-items: center;
-        /* transform: translate(-50%, -50%) */
       }
 
       .key {
@@ -51,58 +66,87 @@
 
       kbd {
         font-size: 25px;
-        /* display: block; */
       }
 
       span.sound {
         font-size: 10px;
         text-transform: uppercase;
         color: #000;
-        /* color: #ffc600; */
+      }
+
+      button {
+        align-self: center;
+        margin-top: 50px;
+        padding: 6px 24px;
+        border: 1px solid #ffaa22;
+        border-radius: 6px;
+        box-shadow: 0px 1px 4px 0px #333333;
+        background: linear-gradient(to bottom, transparent 5%, #ffab23 100%);
+        background-color: transparent;
+        color: #ffee66;
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-decoration: none;
+        text-shadow: 1px 1px 6px black;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: linear-gradient(to bottom, #ffab23 5%, transparent 100%);
+        background-color: transparent;
+      }
+
+      button:focus {
+        position: relative;
+        top: 1px;
       }
     </style>
   </head>
 
   <body>
-    <div class="keys">
-      <!-- <img src="img/audience1_1280x853.jpg" alt="audience"> -->
-      <div data-key="65" class="key">
-        <kbd>A</kbd>
-        <span class="sound">bas</span>
+    <div class="wrapper">
+      <h1>Let's play a little salsa</h1>
+      <div class="keys">
+        <!-- <img src="img/audience1_1280x853.jpg" alt="audience"> -->
+        <div data-key="65" class="key">
+          <kbd>A</kbd>
+          <span class="sound">bas</span>
+        </div>
+        <div data-key="83" class="key">
+          <kbd>S</kbd>
+          <span class="sound">open</span>
+        </div>
+        <div data-key="68" class="key">
+          <kbd>D</kbd>
+          <span class="sound">slap</span>
+        </div>
+        <div data-key="70" class="key f70">
+          <kbd>F</kbd>
+          <span class="sound">timbales</span>
+        </div>
+        <div data-key="71" class="key">
+          <kbd>G</kbd>
+          <span class="sound">clave</span>
+        </div>
+        <div data-key="72" class="key">
+          <kbd>H</kbd>
+          <span class="sound">bell</span>
+        </div>
+        <div data-key="74" class="key">
+          <kbd>J</kbd>
+          <span class="sound">cowbell</span>
+        </div>
+        <div data-key="75" class="key">
+          <kbd>K</kbd>
+          <span class="sound">cascara</span>
+        </div>
+        <div data-key="76" class="key">
+          <kbd>L</kbd>
+          <span class="sound">maracas</span>
+        </div>
       </div>
-      <div data-key="83" class="key">
-        <kbd>S</kbd>
-        <span class="sound">open</span>
-      </div>
-      <div data-key="68" class="key">
-        <kbd>D</kbd>
-        <span class="sound">slap</span>
-      </div>
-      <div data-key="70" class="key f70">
-        <kbd>F</kbd>
-        <span class="sound">timbales</span>
-      </div>
-      <div data-key="71" class="key">
-        <kbd>G</kbd>
-        <span class="sound">clave</span>
-      </div>
-      <div data-key="72" class="key">
-        <kbd>H</kbd>
-        <span class="sound">bell</span>
-      </div>
-      <div data-key="74" class="key">
-        <kbd>J</kbd>
-        <span class="sound">cowbell</span>
-      </div>
-      <div data-key="75" class="key">
-        <kbd>K</kbd>
-        <span class="sound">cascara</span>
-      </div>
-      <div data-key="76" class="key">
-        <kbd>L</kbd>
-        <span class="sound">maracas</span>
-      </div>
-      <button>PLAY</button>
+      <button>PLAY CLAVE RHYTHM</button>
     </div>
     <audio data-key="65" src="sounds/bas1.m4a"></audio>
     <audio data-key="83" src="sounds/open.m4a"></audio>
